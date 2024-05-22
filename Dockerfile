@@ -1,23 +1,20 @@
-# Dockerfile
+\# Use Node 18 as parent image
+FROM node:18
 
-FROM node:14
+# Change the working directory on the Docker image to /app
+WORKDIR /app
 
-# Create app directory
-WORKDIR /usr/src/app
+# Copy package.json and package-lock.json to the /app directory
+COPY package.json package-lock.json ./
 
-# Install app dependencies
-COPY package*.json ./
+# Install dependencies
 RUN npm install
 
-# Bundle app source
+# Copy the rest of project files into this image
 COPY . .
 
-# Expose the port the app runs on
+# Expose application port
 EXPOSE 3000
 
-# Set environment variables
-ENV MAPBOX_ACCESS_TOKEN=sk.eyJ1IjoicGFyZGVlcGthdXIiLCJhIjoiY2x3aTZ0dWVrMGhybTJrcHByYnplY2pteCJ9.4G-cAAnA6HRC2f_yIR4vmA
-
-
-# Define the command to run the app
-CMD [ "npm", "start" ]
+# Start the application
+CMD npm start
